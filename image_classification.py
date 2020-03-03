@@ -12,6 +12,7 @@ from keras.utils.np_utils import to_categorical
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as pyplot
 from Model.model import Model
+from tensorflow.keras.optimizers import Adam
 # import torch
 from sklearn.model_selection import train_test_split 
 
@@ -61,7 +62,7 @@ def load_data(folder,dataFrame, col):
 
     return X, y
 
-X, y = load_images_from_folder('./Training_Images', dataFrame = df, col = 'label')
+X, y = load_data('./Training_Images', dataFrame = df, col = 'label')
 
 # split the data into train and test
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42, test_size=0.2)
@@ -94,9 +95,9 @@ model.compile(loss="categorical_crossentropy", optimizer=opt,
 
 # compile and train
 print("training network")
-H = model.fit__generator(
+H = model.fit_generator(
     aug.flow(X_train, y_train, batch_size=batch_size),
-    validation_split=0.2,
+    validation_data=(X_test, y_test),
     steps_per_epoch=X_train.shape[0] // batch_size,
     epochs=epochs,
     class_weight=classWeight,
@@ -106,7 +107,7 @@ H = model.fit__generator(
 print("evaluating network")
 predictions = model.predict(X_test, batch_size=batch_size)
 print(accuracy_score(y_test.argmax(axis=1),predictions.argmax(axis=1)))
-print(classification_report(y_test.argmax(axis=1),predictions.argmax(axis=1))
+print(classification_report(y_test.argmax(axis=1),predictions.argmax(axis=1)))
 
 print("serializing the model")
 model.save('./output')

@@ -1,5 +1,5 @@
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import BatchNormalization, Dense, Dropout, Conv2D, Flatten, Activation, MaxPoling2D
+from tensorflow.keras.layers import BatchNormalization, Dense, Dropout, Conv2D, Flatten, Activation, MaxPooling2D
 
 class Model():
     @staticmethod
@@ -21,18 +21,18 @@ class Model():
         model.add(Conv2D(64, (3, 3), padding="same"))
         model.add(BatchNormalization(axis=chanDim))
         model.add(Activation("relu"))
-        model.add(Conv2D(64, (3, 3), padding="same"))
-        model.add(BatchNormalization(axis=chanDim))
-        model.add(Activation("relu"))
+        # model.add(Conv2D(64, (3, 3), padding="same"))
+        # model.add(BatchNormalization(axis=chanDim))
+        # model.add(Activation("relu"))
         model.add(MaxPooling2D(pool_size=(2, 2)))
 
         # second set of (CONV => RELU => CONV => RELU) * 2 => POOL
         model.add(Conv2D(128, (3, 3), padding="same"))
         model.add(BatchNormalization(axis=chanDim))
         model.add(Activation("relu"))
-        model.add(Conv2D(128, (3, 3), padding="same"))
-        model.add(BatchNormalization(axis=chanDim))
-        model.add(Activation("relu"))
+        # model.add(Conv2D(128, (3, 3), padding="same"))
+        # model.add(BatchNormalization(axis=chanDim))
+        # model.add(Activation("relu"))
         model.add(MaxPooling2D(pool_size=(2, 2)))
 
         # first set of FC => RELU layers
@@ -42,9 +42,9 @@ class Model():
         model.add(Dropout(0.2))
 
         # second set of FC => RELU layers
-        model.add(Flatten())
-        model.add(Dense(128))
-        model.add(Activation("relu"))
+        # model.add(Flatten())
+        # model.add(Dense(128))
+        # model.add(Activation("relu"))
 
         # softmax classifier
         model.add(Dense(classes))
